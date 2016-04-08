@@ -1,0 +1,33 @@
+{% extends 'layout.html' %}
+{% load static from staticfiles %}
+
+{% block content %}
+    <h1>{{ list.title }}</h1> <h3>curated by {{ list.owner }}</h3>
+    <p>{{ list.description }}</p>
+
+    <div class="row">
+    {% for rest in restaurants %}
+        <div class="col-sm6 col-md-3">
+            <div class="thumbnail">
+                <div class="img-container">
+                <img class="thumb-image" src="
+                {% if rest.thumb %}
+                    {% static rest.thumb %}
+                {% else %}
+                    {% static 'img/default.svg' %}
+                {% endif %}
+                " alt="Ciao">
+                </div>
+                <div class="caption">
+                    <h3>{{ rest.name }}</h3>
+                    <p>{{ rest.address }}</p>
+                    <p><a href="#" class="btn btn-primary" role="button">Button</a>
+                    <a href="#" class="btn btn-default" role="button">Button</a></p>
+                </div>
+
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+
+{% endblock %}

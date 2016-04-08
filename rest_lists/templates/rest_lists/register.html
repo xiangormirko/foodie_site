@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block title %}Foodies Register{% endblock %}
+{% block content %}
+    <div class = 'register_form_container'>
+    <h1>Register with Foodies</h1>
+
+        {% if registered %}
+        <strong>thank you for registering!</strong>
+        <a href="#">Return to the homepage.</a><br />
+        {% else %}
+        <strong>register here!</strong><br />
+
+        <form id="user_form" method="POST" action="/lists/register/"
+                enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            {{ user_form.as_p }}
+            {{ profile_form.as_p }}
+
+            <!-- Provide a button to click to submit the form. -->
+            <input type="submit" id = "register_btn" class ='btn btn-lg btn-primary btn-block' name="submit" value="Register" />
+        </form>
+        {% endif %}
+    </div>
+{% endblock %}

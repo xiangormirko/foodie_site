@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+
+{% block title %}Foodies Login{% endblock %}
+{% block content %}
+    <h1>Login to Foodies</h1>
+    <form id="login_form" method="post" action="/lists/login/">
+        <div class="form-group">
+            {% csrf_token %}
+            <label for="username">Username</label>
+            <input type="text" class="form-control" name="username" value="" size="50" />
+            <br />
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" value="" size="50" />
+            <br />
+            <input type="submit" class="btn btn-lg btn-primary btn-block" value="submit" />
+        </div>
+    </form>
+
+{% endblock %}
