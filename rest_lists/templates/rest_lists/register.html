@@ -1,4 +1,5 @@
 {% extends 'layout.html' %}
+{% load static from staticfiles %}
 
 {% block title %}Foodies Register{% endblock %}
 {% block content %}
@@ -19,9 +20,29 @@
             {{ user_form.as_p }}
             {{ profile_form.as_p }}
 
+            <strong>Here are some defaults for you</strong>
+
+            <div class="default-icons">
+                <img class="icon" src="{% static 'img/icons/food-iconset_0001_glass.png' %}" height="50px" width="50px">
+                <img class="icon" src="{% static 'img/icons/food-iconset_0003_tea-cup.png' %}" height="50px" width="50px">
+                <img class="icon" src="{% static 'img/icons/food-iconset_0002_mug.png' %}" height="50px" width="50px">
+                <img class="icon" src="{% static 'img/icons/food-iconset_0004_cupcake.png' %}" height="50px" width="50px">
+                <img class="icon" src="{% static 'img/icons/food-iconset_0005_eggs-and-bacon.png' %}" height="50px" width="50px">
+                <img class="icon" src="{% static 'img/icons/food-iconset_0006_icecream.png' %}" height="50px" width="50px">
+                <img class="icon" src="{% static 'img/icons/food-iconset_0009_fork&spoon.png' %}" height="50px" width="50px">
+            </div>
             <!-- Provide a button to click to submit the form. -->
             <input type="submit" id = "register_btn" class ='btn btn-lg btn-primary btn-block' name="submit" value="Register" />
         </form>
         {% endif %}
     </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(".icon").click(function(){
+            $('#id_picture').html($(this).attr('src'));
+            console.log($(this).attr('src'))
+        })
+    </script>
 {% endblock %}

@@ -63,11 +63,12 @@
         <div class="col-sm6 col-md-4">
             <div class="thumbnail">
                 <div class="img-container">
-                <img class="thumb-image" src="{% if list.thumb %} {% static list.thumb %}
-                {% else %} {% static 'img/placeholder.png' %} {% endif %}" alt="Ciao">
+                <a href="{% url 'lists:detail' pk=list.id %}"><img class="thumb-image" src="{% if list.thumb %} {% static list.thumb %}
+                {% else %} {% static 'img/placeholder.png' %} {% endif %}" alt="Ciao"></a>
                 </div>
                 <div class="caption">
                     <h3>{{ list.title }} <span class="label label-success">23 followers</span></h3>
+                    <h6>curated by {{ list.owner.username }}</h6>
                     <p>{{ list.description }}</p>
                     <p><a href="#" class="btn btn-primary" role="button">Button</a>
                     <button class="btn btn-default like" type="button" data-listid="{{ list.id }}">

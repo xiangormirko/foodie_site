@@ -1,0 +1,92 @@
+{% extends 'layout.html' %}
+{% load static from staticfiles %}
+
+{% block head %}
+    <style>
+        .errorlist {
+            display: none;
+        }
+
+        .form-group {
+            margin-bottom: 0;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="row " style="padding-top:40px;">
+        <h3 class="text-center">CHAT ABOUT ANYTHING FOOD RELATED! </h3>
+        <br/><br/>
+        <div class="col-md-8">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    RECENT CHAT HISTORY
+                </div>
+                <div class="panel-body">
+                    <ul class="media-list">
+                        {% for post in posts %}
+                            <li class="media">
+                                <div class="image-crop pull-left"><a id="a-icon" href="">
+                                    <img class="user-icon" src="{% static post.poster.userprofile.picture %}"/>
+                                </a></div>
+                                <div class="media-body">
+                                    {{ post.content }}
+                                    <br>
+                                    <small class="text-muted">{{ post.poster.username }}
+                                        | {{ post.posted_time }}</small>
+                                    <hr/>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                </div>
+                <div class="panel-footer">
+                    <form id="post_form" method="POST" action="" enctype="multipart/form-data">
+                        <div class="form-group">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <!-- Provide a button to click to submit the form. -->
+                        <input id="chat_button" type="submit" class ='btn btn-info' name="submit" value="Send" />
+                        </div>
+                </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    ONLINE USERS
+                </div>
+                <div class="panel-body">
+                    <ul class="media-list">
+
+                        <li class="media">
+
+                            <div class="media-body">
+
+                                <div class="media">
+                                    <a class="pull-left" href="#">
+                                        <img class="media-object img-circle" style="max-height:40px;"
+                                             src=""/>
+                                    </a>
+                                    <div class="media-body">
+                                        <h5>Alex Deo | User </h5>
+
+                                        <small class="text-muted">Active From 3 hours</small>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/ajaxchat.js' %}"></script>
+{% endblock %}

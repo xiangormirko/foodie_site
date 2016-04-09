@@ -121,6 +121,15 @@
       <foreign-key name="#FAKE_lists_restaurant_1" columns="list_id" ref-table="lists_list" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
       <index name="lists_restaurant_4da3e820" unique="true" columns="list_id"/>
     </table>
+    <table name="rest_lists_chat" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="posted_time" sqlType="DATETIME" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="poster_id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="content" sqlType="TEXT" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_rest_lists_chat_1" columns="poster_id" ref-table="auth_user" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="rest_lists_chat_9b86e5fe" unique="true" columns="poster_id"/>
+    </table>
     <table name="rest_lists_cuisine" schema="" catalog="" type="TABLE">
       <column name="id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
       <column name="name" sqlType="VARCHAR(180)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
@@ -140,11 +149,12 @@
     <table name="rest_lists_list" schema="" catalog="" type="TABLE">
       <column name="id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
       <column name="created_at" sqlType="DATETIME" precision="0" scale="-1" nullable="false" jdbcType="12"/>
-      <column name="title" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <column name="description" sqlType="TEXT" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <column name="owner_id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
       <column name="public" sqlType="BOOL" precision="0" scale="-1" nullable="false" jdbcType="4"/>
       <column name="thumb" sqlType="VARCHAR(100)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="likes" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="title" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <primary-key columns="id"/>
       <foreign-key name="#FAKE_rest_lists_list_1" columns="owner_id" ref-table="auth_user" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
       <index name="rest_lists_list_5e7b1936" unique="true" columns="owner_id"/>
@@ -164,8 +174,20 @@
       <column name="id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
       <column name="user_id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
       <column name="picture" sqlType="VARCHAR(100)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="default" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <primary-key columns="id"/>
       <foreign-key name="#FAKE_rest_lists_userprofile_1" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+    </table>
+    <table name="rest_lists_userprofile_following" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="userprofile_id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="list_id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <primary-key columns="id"/>
+      <foreign-key name="#FAKE_rest_lists_userprofile_following_1" columns="list_id" ref-table="rest_lists_list" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <foreign-key name="#FAKE_rest_lists_userprofile_following_2" columns="userprofile_id" ref-table="rest_lists_userprofile" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
+      <index name="rest_lists_userprofile_following_4da3e820" unique="true" columns="list_id"/>
+      <index name="rest_lists_userprofile_following_9c2a73e9" unique="true" columns="userprofile_id"/>
+      <index name="rest_lists_userprofile_following_userprofile_id_2dd93643_uniq" unique="true" columns="userprofile_id,list_id"/>
     </table>
     <table name="sqlite_sequence" schema="" catalog="" type="TABLE">
       <column name="name" sqlType="" precision="0" scale="-1" nullable="true" jdbcType="12"/>

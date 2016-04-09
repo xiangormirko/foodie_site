@@ -4,7 +4,7 @@
 {% block content %}
     <h1>Login to Foodies</h1>
     <form id="login_form" method="post" action="/lists/login/">
-        <div class="form-group">
+        <div>
             {% csrf_token %}
             <label for="username">Username</label>
             <input type="text" class="form-control" name="username" value="" size="50" />

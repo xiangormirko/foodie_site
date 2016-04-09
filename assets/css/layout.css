@@ -13,7 +13,7 @@ body {
 
 h1 {
     color: 	#f25d19;
-    padding-top: 3rem;
+    padding-top: 1rem;
 }
 
 input[type=submit] {
@@ -156,7 +156,7 @@ input[type=submit] {
     width: auto;
 }
 
-/* REGISTER FORM
+/* FORMS
 -------------------------------------------------- */
 
 .register_form_container {
@@ -168,7 +168,7 @@ input[type=submit] {
 
 h1 {
     color: 	#f25d19;
-    padding-top: 3rem;
+    padding-top: 1rem;
 }
 
 .register_form_container strong {
@@ -196,6 +196,42 @@ form label, span {
     display: block;
 }
 
+#post_form {
+    display: flex;
+    width: 100%;
+}
+
+#chat_input {
+    width: 80%;
+}
+
+#id_content {
+    height: 50px;
+    width: 100%;
+
+}
+
+#chat_button {
+    margin: 0;
+    height: 50px;
+    width: 20%;
+}
+
+.form-group p {
+    width: 80%;
+    display: flex;
+}
+
+.form-group {
+    width: 100%;
+    display: flex;
+}
+
+#login-form {
+    display: flex;
+    flex-direction: column;
+}
+
 /* WIDGETS
 -------------------------------------------------- */
 
@@ -204,6 +240,20 @@ form label, span {
     font-size: 1rem;
     margin-top: -10px;
 }
+
+.breadcrumb {
+    margin-top: 2rem;
+}
+
+.label.label-success {
+    margin-top: 10px;
+}
+
+#user_lists {
+
+    margin-top: 12rem;
+}
+
 
 /* MAP
 -------------------------------------------------- */

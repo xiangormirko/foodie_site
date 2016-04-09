@@ -8,11 +8,39 @@ from . import models
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
+    verify_password = forms.CharField(label="please verity your password", widget=forms.PasswordInput())
 
     class Meta:
         model = User
         fields = ('username', 'email', 'password')
 
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get('password')
+        verity = cleaned_data.get('verify_password')
+
+        if password != verity:
+            raise forms.ValidationError(
+                "Passwords are not matching"
+            )
+
+class EditUserForm(forms.ModelForm):
+    old_password = forms.CharField(widget=forms.PasswordInput())
+    new_password = forms.CharField(label="new password", widget=forms.PasswordInput())
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'old_password', 'new_password')
+
+    # def clean(self):
+    #     cleaned_data = super().clean()
+    #     password = cleaned_data.get('password')
+    #     verity = cleaned_data.get('verify_password')
+    #
+    #     if password != verity:
+    #         raise forms.ValidationError(
+    #             "Passwords are not matching"
+    #         )
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
@@ -41,4 +69,12 @@ class RestForm(forms.ModelForm):
             'url',
             'tags',
             'thumb',
+        ]
+
+class ChatForm(forms.ModelForm):
+    content = forms.CharField(widget=forms.Textarea, label='')
+    class Meta:
+        model = models.Chat
+        fields = [
+            'content',
         ]

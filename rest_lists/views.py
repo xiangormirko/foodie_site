@@ -1,13 +1,12 @@
 from django.http import HttpResponse
-from itertools import chain
-
-from django.contrib import messages
+from django import forms
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, Http404, render_to_response
-from django.db.models import Q, Count, Sum
 from .forms import UserForm, UserProfileForm
 from django.contrib.auth import authenticate, login, logout
+from django.core import serializers
+from django.contrib import messages
 
 from . import forms
 from . import models
@@ -64,7 +63,6 @@ def register(request):
             print(user_form.errors, profile_form.errors)
 
     else:
-        print('crap!')
         user_form = UserForm()
         profile_form = UserProfileForm()
 
@@ -124,10 +122,13 @@ def create_list(request):
         if form.is_valid():
             list = form.save(commit=False)
             list.owner = request.user
+            if 'thumb' in request.FILES:
+                list.thumb = request.FILES['thumb']
             list.save()
+            form.save_m2m()
             return HttpResponseRedirect(list.get_absolute_url())
 
-    return render(request, 'rest_lists/list_form.html', {'form': form})
+    return render(request, 'rest_lists/list_form.html', {'form': form, 'user': request.user})
 
 
 @login_required
@@ -135,6 +136,69 @@ def create_rest(request, list_pk ):
     form = forms.RestForm()
     list = get_object_or_404(models.List, pk = list_pk)
 
+    if request.method == 'POST':
+        form = forms.RestForm(request.POST)
+        if form.is_valid():
+            rest = form.save(commit=False)
+            rest.list = list
+            if 'thumb' in request.FILES:
+                rest.thumb = request.FILES['thumb']
+            rest.save()
+            form.save_m2m()
+            return HttpResponseRedirect(list.get_absolute_url())
+
     return render(request, 'rest_lists/rest_form.html', {'form': form, 'list': list})
 
+@login_required
+def chat_room(request):
+    form = forms.ChatForm(request.POST)
+    if request.method == 'POST':
+        form = forms.ChatForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.poster = request.user
+            post.save()
+            posts = models.Chat.objects.all()
+            return render(request, 'rest_lists/chatroom.html', {'posts': posts, 'form': form})
+            return HttpResponse(serializers.serialize('json', models.Chat.objects.all()))
 
+    if request.method == 'GET':
+        if request.is_ajax():
+            return HttpResponse(serializers.serialize('json', models.Chat.objects.all()))
+
+    posts = models.Chat.objects.all()
+
+    return render(request, 'rest_lists/chatroom.html', {'posts': posts, 'form': form})
+
+@login_required
+def profile_page(request):
+    user = request.user
+    user_profile = request.user.userprofile
+    form = forms.EditUserForm(instance=user)
+    profile_form = forms.UserProfileForm(instance=user.userprofile)
+    if request.method == 'POST':
+        form = forms.EditUserForm(request.POST, instance=user)
+        profile_form = forms.UserProfileForm(request.POST, instance=user_profile)
+        if form.is_valid and profile_form.is_valid():
+            if request.POST.get('old_password'):
+                if user.check_password(request.POST.get('old_password')):
+                    user = form.save()
+                    user.set_password(request.POST.get('new_password'))
+                    user.save()
+                else:
+                    messages.error(request, "passwod didn't match the old one")
+            else:
+                user = form.save()
+                user.save()
+
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            if 'picture' in request.FILES:
+                profile.picture = request.FILES['picture']
+            profile.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 "Profile Edited!")
+            return HttpResponseRedirect('/lists/profile')
+    lists = models.List.objects.filter(owner=user)
+    print(lists)
+    return render(request, 'rest_lists/user_page.html', {'form': form, 'profile_form': profile_form, 'lists': lists})

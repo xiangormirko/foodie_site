@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+{% load static from staticfiles %}
+
+{% block title %}Foodies Register{% endblock %}
+{% block content %}
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class='register_form_container'>
+                <h1>Your profile details</h1>
+                <strong>You may change them here</strong><br/>
+
+                <form id="user_form" method="POST" action="/lists/profile/"
+                      enctype="multipart/form-data">
+
+                    {% csrf_token %}
+
+                    {{ form.as_p }}
+                    {{ profile_form.as_p }}
+                    <!-- Provide a button to click to submit the form. -->
+                    <input type="submit" id="register_btn" class='btn btn-lg btn-primary btn-block' name="submit"
+                           value="Change"/>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div id="user_lists">
+            <list class="list-group">
+            {% for list in lists %}
+                <a href="{% url 'lists:detail' pk=list.id %}" class="list-group-item">
+                    <h4>{{ list.title }} | {{ list.restaurant_set.count }} items</h4>
+                    <p>{{ list.description }}</p>
+                </a>
+            {% endfor %}
+            </list>
+            </div>
+        </div>
+    </div>
+{% endblock %}
