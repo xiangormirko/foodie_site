@@ -67,6 +67,7 @@ class RestForm(forms.ModelForm):
             'name',
             'address',
             'url',
+            'website',
             'tags',
             'thumb',
         ]

@@ -7,6 +7,7 @@ from .forms import UserForm, UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.core import serializers
 from django.contrib import messages
+import json
 
 from . import forms
 from . import models
@@ -108,6 +109,13 @@ def list_detail(request, pk):
     else:
         restaurants = list.restaurant_set.all()
 
+    if request.method == 'POST':
+        rest = models.Restaurant.objects.get(id = request.POST.get('rest_pk'))
+        rest.delete()
+        print('rest deleted')
+        return HttpResponse(request.POST.get('rest_pk'))
+
+
     return render(request, 'rest_lists/list_detail.html', {
         'list': list,
         'restaurants' : restaurants
@@ -157,6 +165,8 @@ def chat_room(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.poster = request.user
+            post.username = request.user.username
+            post.avatar = request.user.userprofile.picture
             post.save()
             posts = models.Chat.objects.all()
             return render(request, 'rest_lists/chatroom.html', {'posts': posts, 'form': form})
@@ -164,7 +174,8 @@ def chat_room(request):
 
     if request.method == 'GET':
         if request.is_ajax():
-            return HttpResponse(serializers.serialize('json', models.Chat.objects.all()))
+            posts = serializers.serialize('json', models.Chat.objects.all())
+            return HttpResponse(posts)
 
     posts = models.Chat.objects.all()
 
@@ -202,3 +213,38 @@ def profile_page(request):
     lists = models.List.objects.filter(owner=user)
     print(lists)
     return render(request, 'rest_lists/user_page.html', {'form': form, 'profile_form': profile_form, 'lists': lists})
+
+@login_required
+def list_edit(request, list_pk):
+    edit = True
+    list = get_object_or_404(models.List, pk=list_pk)
+    form = forms.ListForm(instance=list)
+
+    if request.method == 'POST':
+        form = forms.ListForm(request.POST, instance=list)
+        if form.is_valid():
+            if request.POST.get('delete_btn'):
+                print("delete")
+                form.save()
+                list = form.save(commit=False)
+                list.delete()
+                messages.success(request, "Deleted {}".format(form.cleaned_data['title']))
+                return HttpResponseRedirect('/lists/')
+            else:
+                form.save()
+                messages.success(request, "Updated {}".format(form.cleaned_data['title']))
+                return HttpResponseRedirect('/lists/')
+
+    return render(request, 'rest_lists/list_form.html', {'form': form, 'user': request.user, 'edit':edit})
+
+def search_by_tags(request):
+    lists = None
+    rests  = None
+
+    if request.method =='POST':
+        keyword = request.POST.get('keyword')
+        lists = models.List.objects.filter(tags__name__in=[keyword])
+        rests = models.Restaurant.objects.filter(tags__name__in=[keyword])
+
+        return render(request, 'rest_lists/search.html', {'lists': lists, 'rests': rests})
+    return render(request, 'rest_lists/search.html', {'lists': lists, 'rests': rests})

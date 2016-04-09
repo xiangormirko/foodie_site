@@ -7,18 +7,26 @@
         <li class="active">List</li>
     </ol>
 
-    <div class = 'register_form_container'>
-    <h1>Create a shiny new list</h1>
-    <form id="list_form" method="POST" action="" enctype="multipart/form-data">
+    <div class='register_form_container'>
+        {% if edit %}
+            <h1>Edit your list</h1>
+        {% else %}
+            <h1>Create a shiny new list</h1>
+        {% endif %}
+
+        <form id="list_form" method="POST" action="" enctype="multipart/form-data">
 
             {% csrf_token %}
 
             {{ user_form.as_p }}
             {{ form.as_p }}
             <!-- Provide a button to click to submit the form. -->
-            <input type="submit" id = "register_btn" class ='btn btn-lg btn-primary btn-block' name="submit" value="Create" />
-    </form>
+            <input type="submit" id="register_btn" class='btn btn-lg btn-primary btn-block' name="submit"
+                   value="Submit"/>
+            {% if edit %}
+                <input type="submit" id="delete_btn" class='btn btn-lg btn-danger' name="delete_btn" value="Delete"/>
+            {% endif %}
+        </form>
+
     </div>
-
-
 {% endblock %}

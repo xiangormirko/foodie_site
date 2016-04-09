@@ -232,6 +232,10 @@ form label, span {
     flex-direction: column;
 }
 
+#create_rest {
+    margin-top: 5rem;
+}
+
 /* WIDGETS
 -------------------------------------------------- */
 
@@ -254,6 +258,27 @@ form label, span {
     margin-top: 12rem;
 }
 
+#searchbar {
+    margin-top: 5rem;
+    padding: 0 15px;
+}
+
+#keyword {
+    width: 80%;
+}
+
+#search_btn {
+    margin-top: 0;
+    width: 20%;
+}
+
+#list_column {
+    text-align: center;
+}
+
+#rest_column {
+    text-align: center;
+}
 
 /* MAP
 -------------------------------------------------- */

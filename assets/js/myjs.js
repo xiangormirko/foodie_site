@@ -126,9 +126,10 @@ function initialize() {
         $(document).on('click', '.populate', function(){
             marker_index= $(this).attr("index_id")
             place= places[marker_index-1];
+            console.log(place)
             $('#id_name').val(place.name);
             $("#id_address").val(place.formatted_address);
-            
+            $('#id_website').val(place.website)
 
         });
 

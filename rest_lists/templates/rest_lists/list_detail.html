@@ -8,35 +8,48 @@
     </ol>
     <h1>{{ list.title }}</h1>
     {% ifequal list.owner_id user.id %}
-        <h3>You are the boss | <a href="">Edit list</a></h3>
+        <h3>You are the boss | <a href="{% url 'lists:edit_list' list_pk=list.id %}">Edit list</a> | <a
+                href="{% url 'lists:create_rest' list_pk=list.id %}">Add restaurants</a></h3>
     {% else %}
         <h3>curated by {{ list.owner }} {{ user.username }} </h3>
     {% endifequal %}
     <p>{{ list.description }}</p>
 
     <div class="row">
-    {% for rest in restaurants %}
-        <div class="col-sm6 col-md-3">
-            <div class="thumbnail">
-                <div class="img-container">
-                <img class="thumb-image" src="
+        {% for rest in restaurants %}
+            <div class="col-sm6 col-md-3" div_id="{{ rest.id }}">
+                <div class="thumbnail">
+                    <div class="img-container">
+                        <img class="thumb-image" src="
                 {% if rest.thumb %}
                     {% static rest.thumb %}
                 {% else %}
                     {% static 'img/default.svg' %}
                 {% endif %}
                 ">
-                </div>
-                <div class="caption">
-                    <h3>{{ rest.name }}</h3>
-                    <p>{{ rest.address }}</p>
-                    <p><a href="#" class="btn btn-primary" role="button">Button</a>
-                    <a href="#" class="btn btn-default" role="button">Button</a></p>
-                </div>
+                    </div>
+                    <div class="caption">
+                        <h3>{{ rest.name }}</h3>
+                        <p>{{ rest.address }}</p>
+                        {% if rest.website %}
+                            <p><a href="{{ rest.website }}" target="_blank">{{ rest.website }}</a></p>
+                        {% endif %}
+                        {% if rest.url %}
+                            <p><a href="{{ rest.url }}" target="_blank">{{ rest.url }}</a></p>
+                        {% endif %}
+                        {% ifequal list.owner_id user.id %}
+                            <a href="#" class="btn btn-danger delete" role="button" rest_pk="{{ rest.id }}"
+                               list_pk="{{ list.id }}">Delete</a>
+                        {% endifequal %}
+                    </div>
 
+                </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
     </div>
 
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/list_ajax.js' %}"></script>
 {% endblock %}
