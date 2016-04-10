@@ -54,6 +54,8 @@ class Cuisine(models.Model):
 
 
 class UserProfile(models.Model):
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     picture = models.ImageField(upload_to='profile_images', blank=True)
     following = models.ManyToManyField(List)

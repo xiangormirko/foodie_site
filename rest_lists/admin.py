@@ -5,11 +5,13 @@ from django.contrib import admin
 from .models import List, Restaurant, Cuisine, Chat
 from .models import UserProfile
 
+
 class RestInline(admin.StackedInline):
     model = Restaurant
 
+
 class ListAdmin(admin.ModelAdmin):
-    inlines = [RestInline,]
+    inlines = [RestInline, ]
 
 
 admin.site.register(List, ListAdmin)

@@ -1,0 +1,111 @@
+{% extends 'layout.html' %}
+{% load static from staticfiles %}
+
+
+{% block content %}
+
+    {% if lists %}
+
+        <div class="heading" style="text-align: center">
+            <h1>Here are some top lists with plenty of likes </h1>
+
+            <form id="discover_form" method="POST" action="" enctype="multipart/form-data">
+
+                {% csrf_token %}
+                <input type="submit" class="btn btn-success" value="What to eat?">
+            </form>
+        </div>
+
+        <div class="row" id="highlight">
+            {% for list in lists %}
+                <div class="col-sm6 col-md-4">
+                    <div class="thumbnail">
+                        <div class="img-container">
+                            <a href="{% url 'lists:detail' pk=list.id %}"><img class="thumb-image"
+                                                                               src="{% if list.thumb %} {% static list.thumb %}
+                {% else %} {% static 'img/placeholder.png' %} {% endif %}" alt="Ciao"></a>
+                        </div>
+                        <div class="caption">
+                            <h3>{{ list.title }} <span class="label label-success">23 followers</span></h3>
+                            <h6>curated by {{ list.owner.username }}</h6>
+                            <p>{{ list.description }}</p>
+                            <button class="btn btn-primary like" type="button" data-listid="{{ list.id }}">
+                                Like <span class="badge">{{ list.likes }}</span>
+                            </button>
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if recs %}
+        <div class="heading" style="text-align: center">
+            <h1>Here are some restaurants you may try today! </h1>
+
+            <form id="discover_form" method="POST" action="" enctype="multipart/form-data">
+
+                {% csrf_token %}
+                <input type="submit" class="btn btn-success" value="What to eat?">
+            </form>
+        </div>
+
+        <div class="row" id="highlight">
+
+            {% for rest in recs %}
+                <div class="col-sm6 col-md-4" div_id="{{ rest.id }}">
+                    <div class="thumbnail">
+                        <div class="img-container">
+                            <img class="thumb-image" src="
+                {% if rest.thumb %}
+                    {% static rest.thumb %}
+                {% else %}
+                    {% static 'img/default.svg' %}
+                {% endif %}
+                ">
+                        </div>
+                        <div class="caption">
+                            <h3>{{ rest.name }}</h3>
+                            <p>{{ rest.address }}</p>
+                            {% if rest.website %}
+                                <p><a href="{{ rest.website }}" target="_blank">{{ rest.website }}</a></p>
+                            {% endif %}
+                            {% if rest.url %}
+                                <p><a href="{{ rest.url }}" target="_blank">{{ rest.url }}</a></p>
+                            {% endif %}
+                            {% ifequal rest.list.owner_id user.id %}
+                                <a href="/lists/{{ rest.list.id }}/edit_rest/{{ rest.id }}" class="btn btn-info"
+                                   role="button">Edit</a>
+                                <a href="#" class="btn btn-danger delete" role="button" rest_pk="{{ rest.id }}"
+                                   list_pk="{{ list.id }}">Delete</a>
+                            {% endifequal %}
+                        </div>
+
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+
+    {% endif %}
+
+    {% if not lists and not recs %}
+        <div class="heading" style="text-align: center">
+            <h1>Apologies seems like we don't have suggestions for you! </h1>
+
+            <form id="discover_form" method="POST" action="" enctype="multipart/form-data">
+
+                {% csrf_token %}
+                <input type="submit" class="btn btn-success" value="What to eat?">
+            </form>
+        </div>
+
+    {% endif %}
+
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/ajax.js' %}"></script>
+{% endblock %}

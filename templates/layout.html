@@ -40,6 +40,7 @@
                         <li><a href="{% url 'lists:create_list' %}">Create List</a></li>
                         <li><a href="{% url 'lists:chat' %}">Chat</a></li>
                         <li><a href="{% url 'lists:search' %}">Search</a></li>
+                        <li><a href="{% url 'lists:recommend' %}">Discover</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         {% if user.is_authenticated %}
@@ -64,24 +65,20 @@
 
     </div>
 </div>
-
+<div class="container-fluid">
 {% block outcontent %}
 {% endblock %}
+</div>
 
 <div class="container main">
     {% if messages %}
-        <div class="row">
             <div class="messages">
                 {% for message in messages %}
                     <div class="callout {{ message.tags }}" data-closable>
-                        {{ message }}
-                        <button type="button" class="close-button" aria-label="Dismiss message">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <strong>{{ message }}</strong>
                     </div>
                 {% endfor %}
             </div>
-        </div>
     {% endif %}
     {% block content %}{% endblock %}
 </div>

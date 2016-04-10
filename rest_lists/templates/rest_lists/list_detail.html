@@ -38,6 +38,7 @@
                             <p><a href="{{ rest.url }}" target="_blank">{{ rest.url }}</a></p>
                         {% endif %}
                         {% ifequal list.owner_id user.id %}
+                            <a href="/lists/{{ list.id }}/edit_rest/{{ rest.id }}" class="btn btn-info" role="button">Edit</a>
                             <a href="#" class="btn btn-danger delete" role="button" rest_pk="{{ rest.id }}"
                                list_pk="{{ list.id }}">Delete</a>
                         {% endifequal %}

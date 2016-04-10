@@ -28,9 +28,9 @@
               <h3 class="masthead-brand">Foodies</h3>
               <nav>
                 <ul class="nav masthead-nav">
-                  <li class="active"><a href="#">Home</a></li>
+                  <li class="active"><a href="/lists/">Home</a></li>
                   {% if user.is_authenticated %}
-                        <li><a href="#user">Hi {{ user.username }}!</a></li>
+                        <li><a href="/lists/profile/">Hi {{ user.username }}!</a></li>
                         <li><a href="{% url 'lists:logout' %}">Logout</a></li>
                         {% else %}
                         <li><a href="{% url 'lists:register' %}">Register</a></li>
@@ -52,7 +52,7 @@
 
           <div class="mastfoot">
             <div class="inner">
-              <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+              <p>The Univeristy of Hong Kong, ICOM6043. Student project completed by <a target="_blank" href="https://www.linkedin.com/in/mirkoxiangzhao">Xiang Zhao Mirko</a>.</p>
             </div>
           </div>
 

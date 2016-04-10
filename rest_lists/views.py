@@ -7,7 +7,8 @@ from .forms import UserForm, UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.core import serializers
 from django.contrib import messages
-import json
+from django.db.models import Q
+import random
 
 from . import forms
 from . import models
@@ -161,21 +162,34 @@ def create_rest(request, list_pk ):
 def chat_room(request):
     form = forms.ChatForm(request.POST)
     if request.method == 'POST':
-        form = forms.ChatForm(request.POST)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.poster = request.user
-            post.username = request.user.username
+        post_text = request.POST.get('the_post')
+
+        post = models.Chat(content=post_text, poster=request.user, username=request.user.username)
+        if request.user.userprofile.picture:
             post.avatar = request.user.userprofile.picture
-            post.save()
-            posts = models.Chat.objects.all()
-            return render(request, 'rest_lists/chatroom.html', {'posts': posts, 'form': form})
-            return HttpResponse(serializers.serialize('json', models.Chat.objects.all()))
+        post.save()
+        return HttpResponse(serializers.serialize('json', models.Chat.objects.all()), content_type="application/json")
 
     if request.method == 'GET':
         if request.is_ajax():
             posts = serializers.serialize('json', models.Chat.objects.all())
-            return HttpResponse(posts)
+
+            all_posts = models.Chat.objects.all()
+            htmlbody = ""
+            for post in all_posts:
+                htmlbody += '<li class="media">'
+                htmlbody += '<div class="image-crop pull-left"><a id="a-icon" href="">'
+                if post.avatar:
+                    htmlbody += '<img class="user-icon" src="/static/'+ post.avatar + '"/>'
+                else:
+                    htmlbody += '<img class="user-icon" src="/static/icons/food-iconset_0005_eggs-and-bacon.png'
+                htmlbody += '</a></div><div class="media-body">'
+                htmlbody += post.content
+                htmlbody += '<br><small class="text-muted">'
+                htmlbody += post.poster.username +' | '+post.posted_time.strftime('%B %d, %Y, %I:%M %p')
+                htmlbody += '</small><hr/></div></li>'
+
+            return HttpResponse(htmlbody)
 
     posts = models.Chat.objects.all()
 
@@ -231,20 +245,81 @@ def list_edit(request, list_pk):
                 messages.success(request, "Deleted {}".format(form.cleaned_data['title']))
                 return HttpResponseRedirect('/lists/')
             else:
-                form.save()
+                list = form.save(commit=False)
+                if 'thumb' in request.FILES:
+                    list.thumb = request.FILES['thumb']
+                list.save()
+                form.save_m2m()
                 messages.success(request, "Updated {}".format(form.cleaned_data['title']))
                 return HttpResponseRedirect('/lists/')
 
     return render(request, 'rest_lists/list_form.html', {'form': form, 'user': request.user, 'edit':edit})
 
-def search_by_tags(request):
+
+def rest_edit(request, list_pk, rest_pk):
+    list = get_object_or_404(models.List, pk=list_pk)
+    rest = get_object_or_404(models.Restaurant, pk=rest_pk)
+    form = forms.RestForm(instance=rest)
+
+    if request.method == 'POST':
+        form = forms.RestForm(request.POST, instance=rest)
+        if form.is_valid():
+            rest = form.save(commit=False)
+            rest.list = list
+            if 'thumb' in request.FILES:
+                rest.thumb = request.FILES['thumb']
+            rest.save()
+            messages.success(request, "Updated {}".format(form.cleaned_data['name']))
+            return HttpResponseRedirect(list.get_absolute_url())
+    return render(request, 'rest_lists/rest_edit.html', {'form': form, 'list': list, 'rest': rest})
+
+
+def search(request):
     lists = None
     rests  = None
 
     if request.method =='POST':
-        keyword = request.POST.get('keyword')
-        lists = models.List.objects.filter(tags__name__in=[keyword])
-        rests = models.Restaurant.objects.filter(tags__name__in=[keyword])
 
-        return render(request, 'rest_lists/search.html', {'lists': lists, 'rests': rests})
+        if request.POST.get('query') and request.POST.get('keyword'):
+            query = request.POST.get('query')
+            keyword = request.POST.get('keyword')
+            lists = models.List.objects.filter(
+                Q(title__icontains=query) | Q(description__icontains=query)
+            )
+            lists.filter(tags__name__in=[keyword])
+            rests = models.Restaurant.objects.filter(name__icontains=query)
+            rests = models.Restaurant.objects.filter(tags__name__in=[keyword])
+            return render(request, 'rest_lists/search.html', {'lists': lists, 'rests': rests})
+
+
+        elif request.POST.get('query'):
+            query = request.POST.get('query')
+            lists = models.List.objects.filter(
+                Q(title__icontains=query) | Q(description__icontains=query)
+            )
+            rests = models.Restaurant.objects.filter(name__icontains=query)
+            return render(request, 'rest_lists/search.html', {'lists': lists, 'rests': rests})
+
+        elif request.POST.get('keyword'):
+            keyword = request.POST.get('keyword')
+            lists = models.List.objects.filter(tags__name__in=[keyword])
+            rests = models.Restaurant.objects.filter(tags__name__in=[keyword])
+            return render(request, 'rest_lists/search.html', {'lists': lists, 'rests': rests})
+
     return render(request, 'rest_lists/search.html', {'lists': lists, 'rests': rests})
+
+
+def recommend(request):
+
+    lists = models.List.objects.order_by('-likes')[:3]
+
+    if request.method == 'POST':
+        rests = models.Restaurant.objects.all()
+        recs = []
+        for i in range(3):
+            randint = random.randint(0, rests.count() - 1)
+            rest = rests[randint]
+            recs.append(rest)
+        return render(request, 'rest_lists/suggestion.html', {'recs': recs})
+
+    return render(request, 'rest_lists/suggestion.html', {'lists': lists})

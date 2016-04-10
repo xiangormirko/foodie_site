@@ -24,6 +24,7 @@ class UserForm(forms.ModelForm):
                 "Passwords are not matching"
             )
 
+
 class EditUserForm(forms.ModelForm):
     old_password = forms.CharField(widget=forms.PasswordInput())
     new_password = forms.CharField(label="new password", widget=forms.PasswordInput())
@@ -32,15 +33,16 @@ class EditUserForm(forms.ModelForm):
         model = User
         fields = ('username', 'email', 'old_password', 'new_password')
 
-    # def clean(self):
-    #     cleaned_data = super().clean()
-    #     password = cleaned_data.get('password')
-    #     verity = cleaned_data.get('verify_password')
-    #
-    #     if password != verity:
-    #         raise forms.ValidationError(
-    #             "Passwords are not matching"
-    #         )
+        # def clean(self):
+        #     cleaned_data = super().clean()
+        #     password = cleaned_data.get('password')
+        #     verity = cleaned_data.get('verify_password')
+        #
+        #     if password != verity:
+        #         raise forms.ValidationError(
+        #             "Passwords are not matching"
+        #         )
+
 
 class UserProfileForm(forms.ModelForm):
     class Meta:
@@ -60,6 +62,7 @@ class ListForm(forms.ModelForm):
 
         ]
 
+
 class RestForm(forms.ModelForm):
     class Meta:
         model = models.Restaurant
@@ -72,8 +75,10 @@ class RestForm(forms.ModelForm):
             'thumb',
         ]
 
+
 class ChatForm(forms.ModelForm):
     content = forms.CharField(widget=forms.Textarea, label='')
+
     class Meta:
         model = models.Chat
         fields = [

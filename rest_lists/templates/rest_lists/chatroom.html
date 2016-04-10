@@ -23,7 +23,7 @@
                     RECENT CHAT HISTORY
                 </div>
                 <div class="panel-body">
-                    <ul class="media-list">
+                    <ul class="media-list" id="chat_target">
                         {% for post in posts %}
                             <li class="media">
                                 <div class="image-crop pull-left"><a id="a-icon" href="">
@@ -42,14 +42,14 @@
 
                 </div>
                 <div class="panel-footer">
-                    <form id="post_form" method="POST" action="" enctype="multipart/form-data">
+                    <form id="post_form" method="POST" action="/lists/chat/" enctype="multipart/form-data">
                         <div class="form-group">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <!-- Provide a button to click to submit the form. -->
-                        <input id="chat_button" type="submit" class ='btn btn-info' name="submit" value="Send" />
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <!-- Provide a button to click to submit the form. -->
+                            <input id="chat_button" type="submit" class='btn btn-info' name="submit" value="Send"/>
                         </div>
-                </form>
+                    </form>
                 </div>
             </div>
         </div>

@@ -1,9 +1,12 @@
 /* GLOBAL STYLES
 -------------------------------------------------- */
 /* Padding below the footer and lighter body text */
+html {
+    height: 100%;
+}
 
 body {
-
+    height: 100%;
     color: #5a5a5a;
 }
 
@@ -12,7 +15,7 @@ body {
 }
 
 h1 {
-    color: 	#f25d19;
+    color: #f25d19;
     padding-top: 1rem;
 }
 
@@ -21,7 +24,7 @@ input[type=submit] {
 }
 
 /*#main-containner {*/
-    /*padding-top: 5rem;*/
+/*padding-top: 5rem;*/
 /*}*/
 
 /* NAVBAR
@@ -39,12 +42,14 @@ input[type=submit] {
 /* Flip around the padding for proper display in narrow viewports */
 .navbar-wrapper > .container {
     padding-right: 0;
-      padding-left: 0;
+    padding-left: 0;
 }
+
 .navbar-wrapper .navbar {
     padding-right: 15px;
     padding-left: 15px;
 }
+
 .navbar-wrapper .navbar .container {
     width: auto;
 }
@@ -59,71 +64,70 @@ input[type=submit] {
 
 /* Carousel base class */
 .carousel {
-  height: 500px;
-  margin-bottom: 60px;
+    height: 500px;
+    margin-bottom: 60px;
 }
+
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
-  z-index: 10;
+    z-index: 10;
 }
 
 /* Declare heights because of positioning of img element */
 .carousel .item {
-  height: 500px;
-  background-color: #777;
+    height: 500px;
+    background-color: #777;
 }
 
-
-
 .carousel-inner > .item > img {
-  /*position: absolute;*/
-  /*top: 0;*/
-  /*left: 0;*/
-  min-width: 100%;
-  /*height: 500px;*/
+    /*position: absolute;*/
+    /*top: 0;*/
+    /*left: 0;*/
+    min-width: 100%;
+    /*height: 500px;*/
 
     margin: 0 auto;
 }
-
 
 /* MARKETING CONTENT
 -------------------------------------------------- */
 
 /* Center align the text within the three columns below the carousel */
 .marketing .col-lg-4 {
-  margin-bottom: 20px;
-  text-align: center;
-}
-.marketing h2 {
-  font-weight: normal;
-}
-.marketing .col-lg-4 p {
-  margin-right: 10px;
-  margin-left: 10px;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
+.marketing h2 {
+    font-weight: normal;
+}
+
+.marketing .col-lg-4 p {
+    margin-right: 10px;
+    margin-left: 10px;
+}
 
 /* Featurettes
 ------------------------- */
 
 .featurette-divider {
-  margin: 80px 0; /* Space out the Bootstrap <hr> more */
+    margin: 80px 0; /* Space out the Bootstrap <hr> more */
 }
 
 /* Thin out the marketing headings */
 .featurette-heading {
-  font-weight: 300;
-  line-height: 1;
-  letter-spacing: -1px;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -1px;
 }
 
 /* THUMBNAILS
 -------------------------------------------------- */
 .img-container {
     display: flex;
-    justify-content:center;
-    align-items:center;
-    overflow:hidden
+    justify-content: center;
+    align-items: center;
+    overflow: hidden
 }
 
 .thumb-image {
@@ -167,15 +171,13 @@ input[type=submit] {
 }
 
 h1 {
-    color: 	#f25d19;
+    color: #f25d19;
     padding-top: 1rem;
 }
 
 .register_form_container strong {
-    color: 	#40848f;
+    color: #40848f;
 }
-
-
 
 #user_form {
     display: flex;
@@ -238,6 +240,9 @@ form label, span {
 
 /* WIDGETS
 -------------------------------------------------- */
+.callout {
+    margin: 1rem;
+}
 
 .label-success {
     vertical-align: text-top;
@@ -280,6 +285,63 @@ form label, span {
     text-align: center;
 }
 
+/* RECOMMEND
+-------------------------------------------------- */
+
+#highlight {
+    padding-top: 5rem;
+}
+
+/*#background {*/
+/*background-color: #40848f;*/
+/*min-height: 100%;*/
+/*position:absolute;*/
+/*top:0;*/
+/*left:0;*/
+/*width:100%;*/
+/*height:100%;*/
+/*padding-top: 10rem;*/
+/*!*display: flex;*!*/
+/*!*align-content: center;*!*/
+/*!*justify-content: center;*!*/
+
+/*}*/
+
+/*#prefs {*/
+/*display: flex;*/
+/*flex-direction: column;*/
+/*align-content: center;*/
+/*justify-content: center;*/
+/*color: white;*/
+/*align-items: center;*/
+/*}*/
+
+/*#machine1 {*/
+/*margin-top: 20rem;*/
+/*padding-top: 22rem;*/
+/*height: 430px;*/
+/*width: 350px;*/
+/*}*/
+
+/*#machine_row {*/
+/*display: flex;*/
+/*align-content: center;*/
+/*justify-content: center;*/
+/*}*/
+
+/*#rec_btn {*/
+/*margin-top: 2rem;*/
+/*width: 200px;*/
+/*}*/
+
+/*#checkbox_rec, #btn_rec {*/
+/*display: flex;*/
+/*align-content: center;*/
+/*justify-content: center;*/
+/*color: white;*/
+/*align-items: center;*/
+/*}*/
+
 /* MAP
 -------------------------------------------------- */
 
@@ -298,13 +360,29 @@ form label, span {
     display: flex;
 }
 
-
 /* RESPONSIVE CSS
 -------------------------------------------------- */
 
 @media (max-width: 768px) {
     .carousel-inner > .item > img {
         display: none;
+
+    }
+
+    #search_form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #search_form input {
+        width: 350px;
+        margin: 2px;
+    }
+
+    #checkbox_rec, #btn_rec {
+        display: block;
+
     }
 
     .carousel .item {
@@ -335,11 +413,10 @@ form label, span {
     }
 }
 
-
 @media (min-width: 992px) {
-  .featurette-heading {
-    margin-top: 120px;
-  }
+    .featurette-heading {
+        margin-top: 120px;
+    }
 }
 
 

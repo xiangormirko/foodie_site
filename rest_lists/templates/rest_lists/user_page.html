@@ -25,14 +25,14 @@
         </div>
         <div class="col-md-8">
             <div id="user_lists">
-            <list class="list-group">
-            {% for list in lists %}
-                <a href="{% url 'lists:detail' pk=list.id %}" class="list-group-item">
-                    <h4>{{ list.title }} | {{ list.restaurant_set.count }} items</h4>
-                    <p>{{ list.description }}</p>
-                </a>
-            {% endfor %}
-            </list>
+                <list class="list-group">
+                    {% for list in lists %}
+                        <a href="{% url 'lists:detail' pk=list.id %}" class="list-group-item">
+                            <h4>{{ list.title }} | {{ list.restaurant_set.count }} items</h4>
+                            <p>{{ list.description }}</p>
+                        </a>
+                    {% endfor %}
+                </list>
             </div>
         </div>
     </div>

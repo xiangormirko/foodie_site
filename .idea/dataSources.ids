@@ -124,8 +124,10 @@
     <table name="rest_lists_chat" schema="" catalog="" type="TABLE">
       <column name="id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
       <column name="posted_time" sqlType="DATETIME" precision="0" scale="-1" nullable="false" jdbcType="12"/>
-      <column name="poster_id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
       <column name="content" sqlType="TEXT" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="poster_id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
+      <column name="avatar" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="username" sqlType="VARCHAR(180)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <primary-key columns="id"/>
       <foreign-key name="#FAKE_rest_lists_chat_1" columns="poster_id" ref-table="auth_user" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
       <index name="rest_lists_chat_9b86e5fe" unique="true" columns="poster_id"/>
@@ -164,8 +166,9 @@
       <column name="name" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <column name="address" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <column name="list_id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
-      <column name="url" sqlType="VARCHAR(200)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <column name="thumb" sqlType="VARCHAR(100)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="website" sqlType="VARCHAR(200)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
+      <column name="url" sqlType="VARCHAR(200)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <primary-key columns="id"/>
       <foreign-key name="#FAKE_rest_lists_restaurant_1" columns="list_id" ref-table="rest_lists_list" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
       <index name="rest_lists_restaurant_4da3e820" unique="true" columns="list_id"/>
@@ -174,7 +177,6 @@
       <column name="id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
       <column name="user_id" sqlType="INTEGER" precision="0" scale="-1" nullable="false" jdbcType="4"/>
       <column name="picture" sqlType="VARCHAR(100)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
-      <column name="default" sqlType="VARCHAR(255)" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <primary-key columns="id"/>
       <foreign-key name="#FAKE_rest_lists_userprofile_1" columns="user_id" ref-table="auth_user" ref-schema="" ref-catalog="" ref-columns="id" update-rule="3" delete-rule="3" deferrability="1"/>
     </table>
