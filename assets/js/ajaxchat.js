@@ -28,7 +28,7 @@ $(document).ready(function () {
             }
             ;
         });
-        setTimeout(sync_messages, 3000)
+        setTimeout(sync_messages, 1000)
     }
 
     sync_messages();

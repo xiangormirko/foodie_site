@@ -30,6 +30,7 @@
                     </div>
                     <div class="caption">
                         <h3>{{ rest.name }}</h3>
+                        <a href="/lists/{{ rest.list.id }}"><strong>List</strong>: {{ rest.list }}</a>
                         <p>{{ rest.address }}</p>
                         {% if rest.website %}
                             <p><a href="{{ rest.website }}" target="_blank">{{ rest.website }}</a></p>

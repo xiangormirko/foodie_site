@@ -7,8 +7,6 @@ from django.core.urlresolvers import reverse
 from django.core import validators
 
 
-# Create your models here.
-
 
 class List(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -42,15 +40,15 @@ class Restaurant(models.Model):
         return self.name
 
 
-class Cuisine(models.Model):
-    name = models.CharField(max_length=180)
-    restaurants = models.ManyToManyField(Restaurant)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        ordering = ('name',)
+# class Cuisine(models.Model):
+#     name = models.CharField(max_length=180)
+#     restaurants = models.ManyToManyField(Restaurant)
+#
+#     def __str__(self):
+#         return self.name
+#
+#     class Meta:
+#         ordering = ('name',)
 
 
 class UserProfile(models.Model):

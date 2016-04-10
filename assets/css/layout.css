@@ -278,11 +278,11 @@ form label, span {
 }
 
 #list_column {
-    text-align: center;
+    text-align: left;
 }
 
 #rest_column {
-    text-align: center;
+    text-align: left;
 }
 
 /* RECOMMEND
@@ -292,55 +292,9 @@ form label, span {
     padding-top: 5rem;
 }
 
-/*#background {*/
-/*background-color: #40848f;*/
-/*min-height: 100%;*/
-/*position:absolute;*/
-/*top:0;*/
-/*left:0;*/
-/*width:100%;*/
-/*height:100%;*/
-/*padding-top: 10rem;*/
-/*!*display: flex;*!*/
-/*!*align-content: center;*!*/
-/*!*justify-content: center;*!*/
-
-/*}*/
-
-/*#prefs {*/
-/*display: flex;*/
-/*flex-direction: column;*/
-/*align-content: center;*/
-/*justify-content: center;*/
-/*color: white;*/
-/*align-items: center;*/
-/*}*/
-
-/*#machine1 {*/
-/*margin-top: 20rem;*/
-/*padding-top: 22rem;*/
-/*height: 430px;*/
-/*width: 350px;*/
-/*}*/
-
-/*#machine_row {*/
-/*display: flex;*/
-/*align-content: center;*/
-/*justify-content: center;*/
-/*}*/
-
-/*#rec_btn {*/
-/*margin-top: 2rem;*/
-/*width: 200px;*/
-/*}*/
-
-/*#checkbox_rec, #btn_rec {*/
-/*display: flex;*/
-/*align-content: center;*/
-/*justify-content: center;*/
-/*color: white;*/
-/*align-items: center;*/
-/*}*/
+.result_wrapper {
+    padding-top: 5rem;
+}
 
 /* MAP
 -------------------------------------------------- */

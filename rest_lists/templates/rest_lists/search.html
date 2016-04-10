@@ -13,57 +13,67 @@
                 </div>
             </form>
         </div>
-        <div class="col-md-6" id="list_column">
-            {% for list in lists %}
-                <h1>List results</h1>
-                <div class="col-md-6">
-                    <div class="thumbnail">
-                        <div class="img-container">
-                            <a href="{% url 'lists:detail' pk=list.id %}"><img class="thumb-image"
-                                                                               src="{% if list.thumb %} {% static list.thumb %}
-                {% else %} {% static 'img/placeholder.png' %} {% endif %}" alt="Ciao"></a>
-                        </div>
-                        <div class="caption">
-                            <h3>{{ list.title }}</h3>
-                            <h6>curated by {{ list.owner.username }}</h6>
-                            <p>{{ list.description }}</p>
-                            <p><a href="#" class="btn btn-primary" role="button">Button</a>
-                                <button class="btn btn-default like" type="button" data-listid="{{ list.id }}">
-                                    Like <span class="badge">{{ list.likes }}</span>
-                                </button>
-                            </p>
-                        </div>
 
+        <div class="col-md-6" id="list_column">
+            <h1>List results</h1>
+            <div class="result_wrapper">
+                {% for list in lists %}
+                    <div class="col-md-6">
+                        <div class="thumbnail">
+                            <div class="img-container">
+                                <a href="{% url 'lists:detail' pk=list.id %}"><img class="thumb-image"
+                                                                                   src="{% if list.thumb %} {% static list.thumb %}
+                {% else %} {% static 'img/placeholder.png' %} {% endif %}" alt="Ciao"></a>
+                            </div>
+                            <div class="caption">
+                                <h3>{{ list.title }}</h3>
+                                <h6>curated by {{ list.owner.username }}</h6>
+                                <p>{{ list.description }}</p>
+                                <p>
+                                    <button class="btn btn-primary like" type="button" data-listid="{{ list.id }}">
+                                        Like <span class="badge">{{ list.likes }}</span>
+                                    </button>
+                                </p>
+                            </div>
+
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
 
         <div class="col-md-6" id="rest_column">
-            {% for rest in rests %}
-                <h1>Restaurant results</h1>
-                <div class="col-md-6">
-                    <div class="thumbnail">
-                        <div class="img-container">
-                            <a href=""><img class="thumb-image" src="{% if rest.thumb %} {% static rest.thumb %}
+            <h1>Restaurant results</h1>
+            <div class="result_wrapper">
+                {% for rest in rests %}
+                    <div class="col-md-6">
+                        <div class="thumbnail">
+                            <div class="img-container">
+                                <a href=""><img class="thumb-image" src="{% if rest.thumb %} {% static rest.thumb %}
                 {% else %} {% static 'img/placeholder.png' %} {% endif %}" alt="Ciao"></a>
-                        </div>
-                        <div class="caption">
-                            <h3>{{ rest.name }}</h3>
-                            <p>{{ rest.address }}</p>
-                            {% if rest.website %}
-                                <p><a href="{{ rest.website }}" target="_blank">{{ rest.website }}</a></p>
-                            {% endif %}
-                            {% if rest.url %}
-                                <p><a href="{{ rest.url }}" target="_blank">{{ rest.url }}</a></p>
-                            {% endif %}
-                        </div>
+                            </div>
+                            <div class="caption">
+                                <h3>{{ rest.name }}</h3>
+                                <a href="/lists/{{ rest.list.id }}"><strong>List</strong>: {{ rest.list }}</a>
+                                <p>{{ rest.address }}</p>
+                                {% if rest.website %}
+                                    <p><a href="{{ rest.website }}" target="_blank">{{ rest.website }}</a></p>
+                                {% endif %}
+                                {% if rest.url %}
+                                    <p><a href="{{ rest.url }}" target="_blank">{{ rest.url }}</a></p>
+                                {% endif %}
+                            </div>
 
+                        </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
 
     </div>
 
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/ajax.js' %}"></script>
 {% endblock %}
